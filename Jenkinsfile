@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        IMAGE_NAME = 'gauthamdev/app'
+        IMAGE_NAME = 'gauthamdev/docker-secure-build'
         COMMIT_SHA = "${env.GIT_COMMIT}"
     }
     
@@ -10,7 +10,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 sh '''
-                docker build -t $IMAGE_NAME:COMMIT_SHA .
+                docker build -t $IMAGE_NAME:$COMMIT_SHA .
                 docker tag $IMAGE_NAME:COMMIT_SHA $IMAGE_NAME:latest
                 '''
             }
