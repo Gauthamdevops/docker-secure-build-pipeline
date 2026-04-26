@@ -36,12 +36,13 @@ pipeline {
             steps {
                 sh '''
                 # Install Trivy (Amazon Linux 2023)
-                sudo dnf install -y wget
-                wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_Linux-64bit.rpm
-                sudo dnf install -y ./trivy_0.50.2_Linux-64bit.rpm
+                LATEST=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest \
+                  | grep browser_download_url \
+                  | grep rpm \
+                  | cut -d '"' -f 4)
 
-                # Verify
-                trivy --version
+                wget $LATEST
+                sudo dnf install -y ./$(basename $LATEST)
                 '''
             }
         }
