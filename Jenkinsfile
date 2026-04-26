@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh '''
                 docker build -t $IMAGE_NAME:$COMMIT_SHA .
-                docker tag $IMAGE_NAME:$COMMIT_SHA $IMAGE_NAME:latest
+                docker tag $IMAGE_NAME:COMMIT_SHA $IMAGE_NAME:latest
                 '''
             }
         }
@@ -30,6 +30,32 @@ pipeline {
                     '''
                 }
             }
+            
+            stage('Install Trivy') {
+                steps {
+                    sh '''
+                    # Install Trivy (Amazon Linux 2023)
+                    sudo dnf install -y dnf-plugins-core
+
+                    sudo dnf config-manager --add-repo https://aquasecurity.github.io/trivy-repo/rpm/releases/trivy.repo
+
+                    sudo dnf install -y trivy
+
+                    # Verify
+                    trivy --version
+                    '''
+                }
+            }
+            
+            stage('Security Scan') {
+                steps {
+                sh '''
+                trivy image --exit-code 1 --severity HIGH,CRITICAL gauthamdev/app:${COMMIT_SHA}
+                '''
+               }
+           }
+            
         }
     }
 }
+
