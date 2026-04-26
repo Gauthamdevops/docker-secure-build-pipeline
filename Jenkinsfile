@@ -36,9 +36,9 @@ pipeline {
             steps {
                 sh '''
                 # Install Trivy (Amazon Linux 2023)
-                sudo dnf install -y dnf-plugins-core
-                sudo dnf config-manager --add-repo https://aquasecurity.github.io/trivy-repo/rpm/releases/trivy.repo
-                sudo dnf install -y trivy
+                sudo dnf install -y wget
+                wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_Linux-64bit.rpm
+                sudo dnf install -y ./trivy_0.50.2_Linux-64bit.rpm
 
                 # Verify
                 trivy --version
