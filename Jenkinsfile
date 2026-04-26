@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        IMAGE_NAME = 'gauthamdev/docker-secure-build'
+        IMAGE_NAME = 'gauthamdev/dockersecurebuild'
         COMMIT_SHA = "${env.GIT_COMMIT}"
     }
     
