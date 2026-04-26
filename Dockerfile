@@ -1,5 +1,5 @@
 # ---- Build Stage ----
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
@@ -14,10 +14,14 @@ RUN npm ci
 COPY . .
 
 RUN npm run build
+
 # ---- Production Stage ----
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
+
+#Update OS packages
+RUN apk update && apk upgrade
 
 # Copy only necessary files from builder
 COPY --from=builder /app/dist ./dist
