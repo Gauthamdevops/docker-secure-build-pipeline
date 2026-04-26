@@ -24,7 +24,7 @@ pipeline {
                     passwordVariable: 'PASS'
                 )]) {
                     sh '''
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    echo $PASS | docker login -u $USER --password-stdin
                     docker push $IMAGE_NAME:$COMMIT_SHA
                     docker push $IMAGE_NAME:latest
                     '''
