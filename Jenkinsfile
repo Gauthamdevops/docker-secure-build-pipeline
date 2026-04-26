@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh '''
                 docker build -t $IMAGE_NAME:$COMMIT_SHA .
-                docker tag $IMAGE_NAME:COMMIT_SHA $IMAGE_NAME:latest
+                docker tag $IMAGE_NAME:$COMMIT_SHA $IMAGE_NAME:latest
                 '''
             }
         }
